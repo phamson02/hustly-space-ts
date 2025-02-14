@@ -6,6 +6,8 @@ import ForgotPasswordForm from "@/app/(auth)/components/ForgotPasswordForm"
 import LoginForm from "@/app/(auth)/components/LoginForm"
 import SignupForm from "@/app/(auth)/components/SignUpForm"
 import { AuthState } from "@/constants/interfaces"
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Login() {
   const [authState, setAuthState] = useState<AuthState>("login")
@@ -17,7 +19,12 @@ export default function Login() {
   const renderForm = () => {
     switch (authState) {
       case "forgot-password":
-        return <ForgotPasswordForm onSwitch={() => setAuthState("login")} />
+        return (
+          <ForgotPasswordForm
+            onSwitch={() => setAuthState("login")}
+            onStateChange={setAuthState}
+          />
+        )
       case "signup":
         return (
           <SignupForm
@@ -37,6 +44,15 @@ export default function Login() {
 
   return (
     <div className="min-h-screen w-full flex bg-black">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={true}
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+        limit={1}
+      />
       {/* Left side - Auth Form */}
       <div className="flex-1 relative flex items-center justify-center p-8">
         {/* Background Image (visible on mobile, hidden on desktop) */}

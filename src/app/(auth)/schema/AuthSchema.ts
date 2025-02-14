@@ -5,9 +5,14 @@ export const signInSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 characters long."),
 });
 
+export const signInResponse = z.object({
+    email: z.string().email("Please enter a valid email address."),
+    password: z.string().min(8, "Password must be at least 8 characters long."),
+})
+
 export const signUpSchema = z.object({
-    firstName: z.string().min(1, "Please fill your name."),
-    lastName: z.string().min(1, "Please fill your name."),
+    first_name: z.string().min(1, "Please fill your name."),
+    last_name: z.string().min(1, "Please fill your name."),
     email: z.string().email("Please enter a valid email address."),
     password: z.string()
         .min(8, "Password must be at least 8 characters long.")
@@ -45,6 +50,7 @@ export const changePasswordSchema = z.object({
 
 // Export types
 export type SignInType = z.infer<typeof signInSchema>;
+export type SignInResponse = z.infer<typeof signInResponse>
 export type SignUpType = z.infer<typeof signUpSchema>;
 export type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>;

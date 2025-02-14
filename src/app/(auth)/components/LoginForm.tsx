@@ -8,12 +8,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { signInSchema, SignInType } from "../schema/AuthSchema"
 import { useLogin } from "@/api/auth/useAuth"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import useAuthStore from "@/store/useAuthStore"
+import { toast } from 'react-toastify'
 
 export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }: AuthFormProps) {
   const router = useRouter()
   const [serverError, setServerError] = useState("")
   const { mutate: login, isPending } = useLogin()
+  const redirectFrom = useAuthStore((state) => state.redirectFrom)
+  const clearRedirectFrom = useAuthStore((state) => state.clearRedirectFrom)
 
   const {
     register,
@@ -23,13 +27,27 @@ export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }
     resolver: zodResolver(signInSchema)
   })
 
+  useEffect(() => {
+    // Show toast based on redirect source
+    if (redirectFrom) {
+      switch (redirectFrom) {
+        case "forgot-password":
+          toast.success("Check your email to get password.");
+          break;
+        case "signup":
+          toast.success("Check your email to verify your account.");
+          break;
+      }
+      clearRedirectFrom();
+    }
+  }, [redirectFrom, clearRedirectFrom]);
+
   const onSubmit = (data: SignInType) => {
     setServerError("")
 
-    // Validate data before making API call
     if (!data.username || !data.password) {
-      setServerError("Email and password are required")
-      return
+      toast.error("Email and password are required");
+      return;
     }
 
     login(
@@ -37,15 +55,16 @@ export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }
       {
         onSuccess: (response) => {
           if (!response.access) {
-            setServerError("Invalid response from server")
-            return
+            toast.error("Invalid response from server");
+            return;
           }
-          localStorage.setItem("accessToken", response.access)
-          router.push("/news")
+          document.cookie = `accessToken=${response.access}; path=/news;`;
+          toast.success("Login successful!");
+          router.push("/news");
         },
         onError: (error) => {
-          console.error(error)
-          setServerError("Password or email is incorrect.")
+          console.error(error);
+          toast.error("Password or email is incorrect.");
         }
       }
     )

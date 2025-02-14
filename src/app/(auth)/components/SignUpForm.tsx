@@ -10,6 +10,7 @@ import { getAuthToken } from "@/api/apiClient"
 import { useRegister } from "@/api/auth/useAuth"
 import { SignUpType, signUpSchema } from "@/app/(auth)/schema/AuthSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import useAuthStore from "@/store/useAuthStore"
 
 interface SignUpFormProps extends AuthFormProps {
   onStateChange: (state: AuthState) => void
@@ -19,6 +20,7 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
   const router = useRouter()
   const [serverError, setServerError] = useState("")
   const { mutate: signUp, isPending } = useRegister()
+  const setRedirectFrom = useAuthStore((state) => state.setRedirectFrom)
 
   useEffect(() => {
     const accessToken = getAuthToken();
@@ -47,13 +49,14 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
 
     signUp(
       {
-        firstName: data.firstName,
-        lastName: data.lastName,
+        first_name: data.first_name,
+        last_name: data.last_name,
         email: data.email,
         password: data.password,
       },
       {
         onSuccess: () => {
+          setRedirectFrom("signup")
           onStateChange("login")
         },
         onError: (error) => {
@@ -78,25 +81,25 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
           <div className="space-y-2">
             <label className="text-sm text-gray-400">First name</label>
             <Input
-              {...register("firstName")}
+              {...register("first_name")}
               type="text"
               placeholder="First name"
               className="bg-white/10 border-0 text-white placeholder-gray-500 h-12"
             />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+            {errors.first_name && (
+              <p className="text-red-500 text-sm">{errors.first_name.message}</p>
             )}
           </div>
           <div className="space-y-2">
             <label className="text-sm text-gray-400">Last name</label>
             <Input
-              {...register("lastName")}
+              {...register("last_name")}
               type="text"
               placeholder="Last name"
               className="bg-white/10 border-0 text-white placeholder-gray-500 h-12"
             />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+            {errors.last_name && (
+              <p className="text-red-500 text-sm">{errors.last_name.message}</p>
             )}
           </div>
         </div>
