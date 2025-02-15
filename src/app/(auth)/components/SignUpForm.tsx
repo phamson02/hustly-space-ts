@@ -62,6 +62,7 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
         onError: (error) => {
           if (error.message.includes("Email")) {
             setServerError("This email is already registered")
+            // todo
           } else {
             setServerError(error.message)
           }

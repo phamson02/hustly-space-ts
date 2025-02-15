@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import QueryProvider from "@/components/provider/QueryProvider";
+import { Toaster } from "@/components/common/toaster";
 
 export const metadata: Metadata = {
   title: "hustly.space",
@@ -25,6 +26,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

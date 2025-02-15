@@ -1,41 +1,46 @@
-"use client"
+"use client";
 
-import { Input } from "@/components/common/input"
-import { Button } from "@/components/common/button"
-import { AuthFormProps } from "@/constants/interfaces"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { signInSchema, SignInType } from "../schema/AuthSchema"
-import { useLogin } from "@/api/auth/useAuth"
-import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
-import useAuthStore from "@/store/useAuthStore"
-import { toast } from 'react-toastify'
+import { Input } from "@/components/common/input";
+import { Button } from "@/components/common/button";
+import { AuthFormProps } from "@/constants/interfaces";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signInSchema, SignInType } from "../schema/AuthSchema";
+import { useLogin } from "@/api/auth/useAuth";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import useAuthStore from "@/store/useAuthStore";
+import { useToast } from "@/hooks/useToast";
 
-export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }: AuthFormProps) {
-  const router = useRouter()
-  const [serverError, setServerError] = useState("")
-  const { mutate: login, isPending } = useLogin()
-  const redirectFrom = useAuthStore((state) => state.redirectFrom)
-  const clearRedirectFrom = useAuthStore((state) => state.clearRedirectFrom)
+export default function LoginForm({
+  onSwitchToSignup,
+  onSwitchToForgotPassword,
+}: AuthFormProps) {
+  const router = useRouter();
+  const [serverError, setServerError] = useState("");
+  const { mutate: login, isPending } = useLogin();
+  const redirectFrom = useAuthStore((state) => state.redirectFrom);
+  const clearRedirectFrom = useAuthStore((state) => state.clearRedirectFrom);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInType>({
-    resolver: zodResolver(signInSchema)
-  })
+    resolver: zodResolver(signInSchema),
+  });
+
+  const { toast } = useToast();
 
   useEffect(() => {
     // Show toast based on redirect source
     if (redirectFrom) {
       switch (redirectFrom) {
         case "forgot-password":
-          toast.success("Check your email to get password.");
+          toast({ description: "Check your email to get password." });
           break;
         case "signup":
-          toast.success("Check your email to verify your account.");
+          toast({ description: "Check your email to verify your account." });
           break;
       }
       clearRedirectFrom();
@@ -43,7 +48,7 @@ export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }
   }, [redirectFrom, clearRedirectFrom]);
 
   const onSubmit = (data: SignInType) => {
-    setServerError("")
+    setServerError("");
 
     if (!data.username || !data.password) {
       toast.error("Email and password are required");
@@ -65,16 +70,16 @@ export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }
         onError: (error) => {
           console.error(error);
           toast.error("Password or email is incorrect.");
-        }
+        },
       }
-    )
-  }
+    );
+  };
 
   return (
     <div className="space-y-6">
       <div className="text-center lg:text-left">
         <h1 className="text-4xl font-light text-white mb-2">Login account</h1>
-        <p className="text-gray-400">Welcome to hustly.space, đăng chí</p>
+        <p className="text-gray-400">Welcome to hustly.space, đồng chí</p>
       </div>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         {serverError && (
@@ -122,11 +127,15 @@ export default function LoginForm({ onSwitchToSignup, onSwitchToForgotPassword }
         </Button>
         <p className="text-center text-gray-400 text-sm">
           Do not have an account?{" "}
-          <button type="button" onClick={onSwitchToSignup} className="text-white hover:underline">
+          <button
+            type="button"
+            onClick={onSwitchToSignup}
+            className="text-white hover:underline"
+          >
             Sign up
           </button>
         </p>
       </form>
     </div>
-  )
-} 
+  );
+}
