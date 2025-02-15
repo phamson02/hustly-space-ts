@@ -19,5 +19,14 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: "/((?!_next|api/public).*)",
+    matcher: [
+        /*
+         * Match all request paths except for the ones starting with:
+         * - api (API routes)
+         * - _next/static (static files)
+         * - _next/image (image optimization files)
+         * - images directory in /public (public static images)
+         */
+        '/((?!api|_next/static|_next/image|images).*)',
+    ],
 };

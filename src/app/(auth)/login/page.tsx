@@ -38,23 +38,21 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-black">
-      {/* Left side - Auth Form */}
-      <div className="flex-1 relative flex items-center justify-center p-8100">
-        {/* Background Image (visible on mobile, hidden on desktop) */}
+    <div className="flex h-full">
+      <div className="flex-1 relative flex items-center justify-center p-8">
         <div className="absolute inset-0 z-0 lg:hidden">
           <Image
             src="/images/banner.png"
             alt="Background"
-            fill
-            sizes="100%"
-            className="object-cover opacity-30"
+            width={200}
+            height={40}
+            className="object-cover opacity-50 w-screen h-screen"
             priority
+            unoptimized
           />
         </div>
 
         <div className="w-full max-w-[420px] space-y-8 z-10">
-          {/* Logo */}
           <div className="flex justify-center lg:justify-start lg:mb-20">
             <Image
               src={Logo}
@@ -70,18 +68,15 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right side - Image (hidden on mobile, visible on desktop) */}
-      <div className="hidden lg:block flex-1 p-8">
-        <div className="w-full">
-          <Image
-            src="/images/banner.png"
-            width={100}
-            height={100}
-            alt="Hero"
-            className="w-full object-cover"
-            unoptimized
-          />
-        </div>
+      <div className="lg:flex-1 hidden lg:flex lg:flex-col lg:justify-center lg:items-center p-8">
+        <Image
+          src="/images/banner.png"
+          width={100}
+          height={100}
+          alt="Hero"
+          className="h-full w-full rounded-2xl object-cover"
+          unoptimized
+        />
       </div>
     </div>
   );

@@ -10,5 +10,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="w-screen h-screen bg-black">{children}</div>;
+  return <div className="w-screen h-screen bg-black overflow-hidden">{children}</div>;
 }
