@@ -6,8 +6,8 @@ export const signInSchema = z.object({
 });
 
 export const signInResponse = z.object({
-    email: z.string().email("Please enter a valid email address."),
-    password: z.string().min(8, "Password must be at least 8 characters long."),
+    email: z.string().email("Email is required"),
+    password: z.string().min(8, "Password is required"),
 })
 
 export const signUpSchema = z.object({

@@ -45,13 +45,13 @@ export default function LoginForm({
       }
       clearRedirectFrom();
     }
-  }, [redirectFrom, clearRedirectFrom]);
+  }, [redirectFrom, clearRedirectFrom, toast]);
 
   const onSubmit = (data: SignInType) => {
     setServerError("");
 
     if (!data.username || !data.password) {
-      toast.error("Email and password are required");
+      toast({ variant: "destructive", description: "Email and password are required" });
       return;
     }
 
@@ -60,16 +60,16 @@ export default function LoginForm({
       {
         onSuccess: (response) => {
           if (!response.access) {
-            toast.error("Invalid response from server");
+            toast({ variant: "destructive", description: "Invalid response from server" });
             return;
           }
           document.cookie = `accessToken=${response.access}; path=/news;`;
-          toast.success("Login successful!");
+          toast({ description: "Login successful!" });
           router.push("/news");
         },
         onError: (error) => {
           console.error(error);
-          toast.error("Password or email is incorrect.");
+          toast({ variant: "destructive", description: "Password or email is incorrect." });
         },
       }
     );

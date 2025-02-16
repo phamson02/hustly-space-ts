@@ -4,30 +4,21 @@ import { Input } from "@/components/common/input"
 import { Button } from "@/components/common/button"
 import { AuthFormProps, AuthState } from "@/constants/interfaces"
 import { useForm } from "react-hook-form"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { getAuthToken } from "@/api/apiClient"
+import { useState } from "react"
 import { useRegister } from "@/api/auth/useAuth"
 import { SignUpType, signUpSchema } from "@/app/(auth)/schema/AuthSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useAuthStore from "@/store/useAuthStore"
+import { useToast } from "@/hooks/useToast"
 
 interface SignUpFormProps extends AuthFormProps {
   onStateChange: (state: AuthState) => void
 }
 
 export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps) {
-  const router = useRouter()
   const [serverError, setServerError] = useState("")
   const { mutate: signUp, isPending } = useRegister()
   const setRedirectFrom = useAuthStore((state) => state.setRedirectFrom)
-
-  useEffect(() => {
-    const accessToken = getAuthToken();
-    if (!!accessToken) {
-      router.push("/news");
-    }
-  }, [router]);
 
   const {
     register,
@@ -37,6 +28,8 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
     resolver: zodResolver(signUpSchema),
     mode: "onChange"
   })
+
+  const { toast } = useToast();
 
   const onSubmit = (data: SignUpType) => {
     setServerError("")
@@ -62,7 +55,7 @@ export default function SignupForm({ onSwitch, onStateChange }: SignUpFormProps)
         onError: (error) => {
           if (error.message.includes("Email")) {
             setServerError("This email is already registered")
-            // todo
+            toast({ variant: "destructive", description: "This email is already registered" });
           } else {
             setServerError(error.message)
           }
