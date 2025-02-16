@@ -7,34 +7,48 @@ import LoginForm from "@/app/(auth)/components/LoginForm";
 import SignupForm from "@/app/(auth)/components/SignUpForm";
 import { AuthState } from "@/constants/interfaces";
 import Logo from "@assets/images/logo.svg";
+import { motion } from "motion/react";
 
 export default function Login() {
   const [authState, setAuthState] = useState<AuthState>("login");
 
+  const formVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+    exit: { opacity: 0, x: 20, transition: { duration: 0.5, ease: "easeIn" } },
+  };
+
   const renderForm = () => {
-    switch (authState) {
-      case "forgot-password":
-        return (
+    return (
+      <motion.div
+        key={authState}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={formVariants}
+      >
+        {authState === "forgot-password" ? (
           <ForgotPasswordForm
             onSwitch={() => setAuthState("login")}
             onStateChange={setAuthState}
           />
-        );
-      case "signup":
-        return (
+        ) : authState === "signup" ? (
           <SignupForm
             onSwitch={() => setAuthState("login")}
             onStateChange={setAuthState}
           />
-        );
-      default:
-        return (
+        ) : (
           <LoginForm
             onSwitchToSignup={() => setAuthState("signup")}
             onSwitchToForgotPassword={() => setAuthState("forgot-password")}
           />
-        );
-    }
+        )}
+      </motion.div>
+    );
   };
 
   return (
@@ -47,8 +61,8 @@ export default function Login() {
             width={200}
             height={40}
             className="object-cover opacity-50 w-screen h-screen"
-            priority
             unoptimized
+            loading="lazy"
           />
         </div>
 
@@ -60,7 +74,6 @@ export default function Login() {
               width={200}
               height={40}
               className="text-white w-auto h-auto"
-              priority
             />
           </div>
 
@@ -76,6 +89,7 @@ export default function Login() {
           alt="Hero"
           className="h-full w-full rounded-2xl object-cover"
           unoptimized
+          loading="lazy"
         />
       </div>
     </div>

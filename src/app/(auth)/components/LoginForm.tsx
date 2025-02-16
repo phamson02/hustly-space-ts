@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import useAuthStore from "@/store/useAuthStore";
 import { useToast } from "@/hooks/useToast";
+import { LoaderCircle } from "lucide-react";
 
 export default function LoginForm({
   onSwitchToSignup,
@@ -33,7 +34,6 @@ export default function LoginForm({
   const { toast } = useToast();
 
   useEffect(() => {
-    // Show toast based on redirect source
     if (redirectFrom) {
       switch (redirectFrom) {
         case "forgot-password":
@@ -45,13 +45,16 @@ export default function LoginForm({
       }
       clearRedirectFrom();
     }
-  }, [redirectFrom, clearRedirectFrom, toast]);
+  }, [redirectFrom]);
 
   const onSubmit = (data: SignInType) => {
     setServerError("");
 
     if (!data.username || !data.password) {
-      toast({ variant: "destructive", description: "Email and password are required" });
+      toast({
+        variant: "destructive",
+        description: "Email and password are required",
+      });
       return;
     }
 
@@ -60,16 +63,22 @@ export default function LoginForm({
       {
         onSuccess: (response) => {
           if (!response.access) {
-            toast({ variant: "destructive", description: "Invalid response from server" });
+            toast({
+              variant: "destructive",
+              description: "Invalid response from server",
+            });
             return;
           }
-          document.cookie = `accessToken=${response.access}; path=/news;`;
+          document.cookie = `accessToken=${response.access}; path=/home;`;
           toast({ description: "Login successful!" });
-          router.push("/news");
+          router.push("/home");
         },
         onError: (error) => {
           console.error(error);
-          toast({ variant: "destructive", description: "Password or email is incorrect." });
+          toast({
+            variant: "destructive",
+            description: "Password or email is incorrect.",
+          });
         },
       }
     );
@@ -79,7 +88,7 @@ export default function LoginForm({
     <div className="space-y-6">
       <div className="text-center lg:text-left">
         <h1 className="text-4xl font-light text-white mb-2">Login account</h1>
-        <p className="text-gray-400">Welcome to hustly.space, đồng chí</p>
+        <p className="text-gray-400">Welcome to hustly.space, dong chi</p>
       </div>
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         {serverError && (
@@ -109,13 +118,12 @@ export default function LoginForm({
             <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
           <div className="text-right">
-            <button
-              type="button"
+            <span
               onClick={onSwitchToForgotPassword}
-              className="text-sm text-gray-400 hover:text-white"
+              className="text-sm text-gray-400 hover:text-white cursor-pointer"
             >
               Forgot password?
-            </button>
+            </span>
           </div>
         </div>
         <Button
@@ -123,17 +131,16 @@ export default function LoginForm({
           className="w-full bg-white text-black hover:bg-white/90 h-12"
           disabled={isPending}
         >
-          {isPending ? "Signing in..." : "Sign in"}
+          {isPending ? <LoaderCircle className="animate-spin" /> : "Sign in"}
         </Button>
         <p className="text-center text-gray-400 text-sm">
           Do not have an account?{" "}
-          <button
-            type="button"
+          <span
             onClick={onSwitchToSignup}
-            className="text-white hover:underline"
+            className="text-white hover:underline cursor-pointer"
           >
             Sign up
-          </button>
+          </span>
         </p>
       </form>
     </div>
