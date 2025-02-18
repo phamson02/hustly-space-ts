@@ -69,16 +69,132 @@
 
 @font-face {
   font-family: "Articulat CF";
-  src: url("/fonts/ArticulatCF/SVN-ArticulatCF-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Thin.otf");
+  font-weight: 100;
 }
 
 @font-face {
   font-family: "Articulat CF";
-  src: url("/fonts/ArticulatCF/SVN-ArticulatCF-Bold.otf") format("opentype");
-  font-weight: bold;
-  font-style: normal;
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-ThinItalic.otf");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-ExtraLight.otf");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-ExtraLightItalic.otf");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Light.otf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-LightItalic.otf");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Normal.otf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-NormalItalic.otf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Regular.otf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-RegularItalic.otf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Medium.otf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-MediumItalic.otf");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-DemiBold.otf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-DemiBoldItalic.otf");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Bold.otf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-BoldItalic.otf");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-ExtraBold.otf");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-ExtraBoldItalic.otf");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-Heavy.otf");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "Articulat CF";
+  src: url("../../public/fonts/ArticulatCF/SVN-ArticulatCF-HeavyItalic.otf");
+  font-weight: 900;
+  font-style: italic;
 }
 
 body {
