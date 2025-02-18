@@ -61,7 +61,7 @@ export default function LoginForm({
     login(
       { username: data.username, password: data.password },
       {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
           if (!response.access) {
             toast({
               variant: "destructive",
@@ -69,7 +69,13 @@ export default function LoginForm({
             });
             return;
           }
-          document.cookie = `accessToken=${response.access}; path=/home;`;
+          
+          await fetch("/api/auth/setToken", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: response.access }),
+          });
+  
           toast({ description: "Login successful!" });
           router.push("/home");
         },

@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-    const token = request.cookies.get("accessToken")?.value || request.headers.get("cookie")?.includes("accessToken");
+    const token = request.cookies.get("accessToken")?.value;
     const currentPath = request.nextUrl.pathname;
 
     const isAuthRoute = currentPath.startsWith("/login");
 
     if (token && isAuthRoute) {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/home", request.url));
     }
 
     if (!token && !isAuthRoute) {
