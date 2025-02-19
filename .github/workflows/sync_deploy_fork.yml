@@ -1,0 +1,28 @@
+name: Sync Deployment Fork on Master Commit
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    if: ${{ github.repository == 'hustly-space/hustly-space-ts' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set Up Git Configuration
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Add Fork Remote and Push Changes
+        env:
+          GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          git remote add fork "https://${GH_ACCESS_TOKEN}@github.com/phamson02/hustly-space-ts.git"
+          git push fork master --force
